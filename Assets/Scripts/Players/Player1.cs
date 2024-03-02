@@ -2,20 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player1 : MonoBehaviour {
+public class Player1 : Player {
     public float Z_Max = 30.865f;
     public float Z_Min = -4.87f;
     public float X1_Max = -5.524f;
     public float X1_Min = -30.70f;
+
     void Start() {
-        
+        playerStateMachine = gameObject.AddComponent<PlayerStateMachine>();
+    }
+    
+    public override bool isPlayerMove() {
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    void Update() {
-        
-    }
-
-    public Vector3 player1MoveDirection(Vector3 position) {
+    public override Vector3 PlayerMoveDirection(Vector3 position) {
         float horizontal = 0f;
         float vertical = 0f;
 
