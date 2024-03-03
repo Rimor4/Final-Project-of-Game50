@@ -12,6 +12,10 @@ public class PortalBall : MonoBehaviour {
     public Player lastLoser;
 
     void Start() {
+        // always place the portal on the center of the stadium.
+        transform.position = new Vector3(0, 0, 13);
+
+        ballsStateMachine = gameObject.AddComponent<BallStateMachine>();
         rb = GetComponent<Rigidbody>();        
         lastLoser = null;
     }

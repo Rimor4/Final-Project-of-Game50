@@ -9,6 +9,9 @@ public class Player2 : Player {
     public float X2_Min = 5.524f;
 
     void Start() {
+        // place the Player2 on the right of the stadium.
+        transform.position = new Vector3(8, 0, 13);
+
         playerStateMachine = gameObject.AddComponent<PlayerStateMachine>();
     }
 
