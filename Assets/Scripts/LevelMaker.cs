@@ -24,8 +24,15 @@ public class LevelMaker : MonoBehaviour {
     static readonly System.Random random = new System.Random();
 
     void Start() {
-        mapData1 = GenerateBricksData(false);
-        mapData2 = GenerateBricksData(true);
+        mapData1 = GenerateBricksData();
+
+        // Player2需反转
+        for (int y = 0; y < mapWidth; y++) {
+            int r_y = mapWidth - y - 1;
+            for (int x = 0; x < mapLength; x++) {
+                mapData2[y, x] =  mapData1[r_y, x];
+            }
+        }
 
         for (int x = 0; x < mapWidth; x++) {
             for (int z = 0; z < mapLength; z++) {
@@ -33,6 +40,7 @@ public class LevelMaker : MonoBehaviour {
                 if (mapData1[x, z]) {
                     CreateChildPrefab(BrickPrefab, Bricks1, x * 1 + brick1_min_x, brick_y, z * 2 + brick_min_z);
                 }
+
                 // Player2's bricks
                 if (mapData2[x, z]) {
                     CreateChildPrefab(BrickPrefab, Bricks2, x * 1 + brick2_min_x, brick_y, z * 2 + brick_min_z);
@@ -45,8 +53,7 @@ public class LevelMaker : MonoBehaviour {
         
     }
 
-    // TODO: 公平性问题：Player1和Player2的bricksMap不一样
-    bool[,] GenerateBricksData(bool isReversed) {
+    bool[,] GenerateBricksData() {
         // 存储每个位置是否有砖块的数据,初始化为全0
         bool[,] data = new bool[mapWidth, mapLength];
         for (int y = 0; y < mapWidth; y++) {
@@ -70,18 +77,6 @@ public class LevelMaker : MonoBehaviour {
 
                 // 放置砖块
                 data[y, x] = true;
-            }
-        }
-
-        // 是否反转（Player2需反转）
-        if (isReversed) {
-            for (int y = 0; y < mapWidth / 2; y++) {
-                int r_y = mapWidth - y - 1;
-                for (int x = 0; x < mapLength; x++) {
-                    bool temp = data[y, x];
-                    data[y, x] =  data[r_y, x];
-                    data[r_y, x] = temp;
-                }
             }
         }
         return data;
